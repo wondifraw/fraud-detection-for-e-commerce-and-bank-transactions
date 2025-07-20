@@ -120,7 +120,6 @@ eda.bivariate_analysis(df, target_col='class')  # Plots up to 2 bivariate plots
 ## Data
 
 - Place your raw data files in the `data/` directory.
-- Data sources: [Specify your data sources here, e.g., Kaggle, UCI, etc.]
 
 ## Continuous Integration (CI)
 
