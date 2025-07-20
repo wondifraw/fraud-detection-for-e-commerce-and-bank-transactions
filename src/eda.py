@@ -46,57 +46,99 @@ class EDA:
         except Exception as e:
             print(f"Error plotting {col} distribution: {str(e)}")
 
-    def univariate_analysis(self, df):
-        """Plot distributions for all numeric and categorical columns."""
+    def univariate_analysis(self, df, columns=None):
+        """Plot distributions for up to 2 columns: prioritize 1 numeric and 1 categorical if available."""
         import numpy as np
-        numeric_cols = df.select_dtypes(include=[np.number]).columns
-        categorical_cols = df.select_dtypes(include=['object', 'category']).columns
-        for col in numeric_cols:
+        if columns is not None:
+            numeric_cols = [col for col in columns if np.issubdtype(df[col].dtype, np.number)]
+            categorical_cols = [col for col in columns if df[col].dtype == 'object' or df[col].dtype.name == 'category']
+        else:
+            numeric_cols = list(df.select_dtypes(include=[np.number]).columns)
+            categorical_cols = list(df.select_dtypes(include=['object', 'category']).columns)
+        plots_done = 0
+        # Plot at most 1 numeric
+        if numeric_cols:
+            col = numeric_cols[0]
             try:
                 plt.figure(figsize=(8, 5))
                 sns.histplot(df[col].dropna(), bins=30, kde=True)
                 plt.title(f'Univariate Distribution: {col}')
                 plt.show()
+                plots_done += 1
             except Exception as e:
                 print(f"Error plotting numeric column {col}: {str(e)}")
-        for col in categorical_cols:
+        # Plot at most 1 categorical
+        if categorical_cols and plots_done < 2:
+            col = categorical_cols[0]
             try:
                 plt.figure(figsize=(8, 5))
                 sns.countplot(y=col, data=df, order=df[col].value_counts().index)
                 plt.title(f'Univariate Count Plot: {col}')
                 plt.show()
+                plots_done += 1
             except Exception as e:
                 print(f"Error plotting categorical column {col}: {str(e)}")
-
-    def bivariate_analysis(self, df, target_col=None):
-        """Plot pairwise relationships and correlation heatmap. If target_col is provided, plot boxplots for categorical vs. numeric."""
-        import numpy as np
-        numeric_cols = df.select_dtypes(include=[np.number]).columns
-        # Correlation heatmap
-        try:
-            plt.figure(figsize=(12, 8))
-            corr = df[numeric_cols].corr()
-            sns.heatmap(corr, annot=False, cmap='coolwarm')
-            plt.title('Correlation Heatmap')
-            plt.show()
-        except Exception as e:
-            print(f"Error plotting correlation heatmap: {str(e)}")
-        # Pairplot (scatterplot matrix)
-        try:
+        # If only one type exists, plot a second from that type
+        if plots_done < 2:
             if len(numeric_cols) > 1:
-                sns.pairplot(df[numeric_cols].dropna())
-                plt.suptitle('Pairwise Scatter Plots', y=1.02)
+                col = numeric_cols[1]
+                try:
+                    plt.figure(figsize=(8, 5))
+                    sns.histplot(df[col].dropna(), bins=30, kde=True)
+                    plt.title(f'Univariate Distribution: {col}')
+                    plt.show()
+                    plots_done += 1
+                except Exception as e:
+                    print(f"Error plotting numeric column {col}: {str(e)}")
+            elif len(categorical_cols) > 1:
+                col = categorical_cols[1]
+                try:
+                    plt.figure(figsize=(8, 5))
+                    sns.countplot(y=col, data=df, order=df[col].value_counts().index)
+                    plt.title(f'Univariate Count Plot: {col}')
+                    plt.show()
+                    plots_done += 1
+                except Exception as e:
+                    print(f"Error plotting categorical column {col}: {str(e)}")
+
+    def bivariate_analysis(self, df, columns=None, target_col=None):
+        """Plot at most 2 bivariate plots: correlation heatmap and one pairplot or boxplot."""
+        import numpy as np
+        plots_done = 0
+        if columns is not None:
+            numeric_cols = [col for col in columns if np.issubdtype(df[col].dtype, np.number)]
+        else:
+            numeric_cols = list(df.select_dtypes(include=[np.number]).columns)
+        # Correlation heatmap (always first if possible)
+        if len(numeric_cols) > 1:
+            try:
+                plt.figure(figsize=(12, 8))
+                corr = df[numeric_cols].corr()
+                sns.heatmap(corr, annot=False, cmap='coolwarm')
+                plt.title('Correlation Heatmap')
                 plt.show()
-        except Exception as e:
-            print(f"Error plotting pairplot: {str(e)}")
-        # Boxplots for categorical vs. numeric (if target_col is provided)
-        if target_col and target_col in df.columns:
-            for col in numeric_cols:
-                if col != target_col:
-                    try:
-                        plt.figure(figsize=(8, 5))
-                        sns.boxplot(x=target_col, y=col, data=df)
-                        plt.title(f'{col} by {target_col}')
-                        plt.show()
-                    except Exception as e:
-                        print(f"Error plotting boxplot for {col} vs {target_col}: {str(e)}")
+                plots_done += 1
+            except Exception as e:
+                print(f"Error plotting correlation heatmap: {str(e)}")
+        # Pairplot (scatterplot matrix) or boxplot (if target_col)
+        if plots_done < 2:
+            if len(numeric_cols) > 1:
+                try:
+                    sns.pairplot(df[numeric_cols].dropna().iloc[:, :2])
+                    plt.suptitle('Pairwise Scatter Plots', y=1.02)
+                    plt.show()
+                    plots_done += 1
+                except Exception as e:
+                    print(f"Error plotting pairplot: {str(e)}")
+            elif target_col and target_col in df.columns:
+                for col in numeric_cols:
+                    if col != target_col:
+                        try:
+                            plt.figure(figsize=(8, 5))
+                            sns.boxplot(x=target_col, y=col, data=df)
+                            plt.title(f'{col} by {target_col}')
+                            plt.show()
+                            plots_done += 1
+                            break
+                        except Exception as e:
+                            print(f"Error plotting boxplot for {col} vs {target_col}: {str(e)}")
