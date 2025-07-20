@@ -1,5 +1,7 @@
 # Fraud Detection for E-Commerce and Bank Transactions
 
+[![CI](https://github.com/<your-username>/fraud-detection-for-e-commerce-and-bank-transactions/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-username>/fraud-detection-for-e-commerce-and-bank-transactions/actions/workflows/ci.yml)
+
 <!-- If you have a logo, place it here -->
 <!-- ![Project Logo](figures/logo.png) -->
 
@@ -16,6 +18,7 @@ This project provides a robust, modular pipeline for detecting fraudulent transa
 - Ready for integration with machine learning models
 - Jupyter notebook for interactive exploration and reproducibility
 - Unit tests for core pipeline components
+- Continuous Integration (CI) with GitHub Actions
 
 ## Project Structure
 
@@ -40,10 +43,27 @@ This project provides a robust, modular pipeline for detecting fraudulent transa
 ├── figures/                    # Directory for generated plots and figures
 ├── Report.md                   # Project report (methodology, results, recommendations)
 ├── README.md                   # This file
-└── .gitignore
+├── requirements.txt            # Python dependencies
+└── .github/
+    └── workflows/
+        └── ci.yml              # GitHub Actions workflow for CI
 ```
 
-## Installation & Requirements
+## Requirements
+
+- Python 3.8+
+- See `requirements.txt` for all Python dependencies:
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - imbalanced-learn
+  - ipython
+  - jupyter
+  - pytest
+
+## Installation
 
 1. **Clone the repository**
    ```bash
@@ -51,13 +71,16 @@ This project provides a robust, modular pipeline for detecting fraudulent transa
    cd fraud-detection-for-e-commerce-and-bank-transactions
    ```
 
-2. **Install dependencies**
-   - Create a virtual environment (recommended)
-   - Install required packages:
-     ```bash
-     pip install -r requirements.txt
-     ```
-   *(If `requirements.txt` is missing, install: pandas, numpy, matplotlib, seaborn, scikit-learn, imbalanced-learn, ipython, jupyter, pytest)*
+2. **Create a virtual environment (recommended)**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Usage
 
@@ -99,11 +122,27 @@ eda.bivariate_analysis(df, target_col='class')  # Plots up to 2 bivariate plots
 - Place your raw data files in the `data/` directory.
 - Data sources: [Specify your data sources here, e.g., Kaggle, UCI, etc.]
 
+## Continuous Integration (CI)
+
+- This project uses [GitHub Actions](https://github.com/features/actions) for CI.
+- The workflow file is located at `.github/workflows/ci.yml` and runs tests on every push or pull request to `main`.
+- The CI badge at the top of this README will show the current build status.
+
+## Troubleshooting
+
+- If you encounter issues with dependencies, ensure your Python version matches the requirements and that your virtual environment is activated.
+- For Jupyter notebook issues, ensure all dependencies are installed and the kernel is set to your virtual environment.
+- For CI failures, check the Actions tab on GitHub for logs and error messages.
+
 ## Contributing
 
 Contributions are welcome! Please open issues or pull requests for improvements or bug fixes.
 
 ## License
 
-[Specify your license here, e.g., MIT License.]
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For questions or suggestions, please contact [Your Name] at [your.email@example.com].
 
