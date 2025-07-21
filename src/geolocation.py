@@ -22,6 +22,16 @@ class GeolocationProcessor:
         try:
             def safe_convert(x):
                 try:
+                    # If the IP is a float, convert it to an integer first
+                    if isinstance(x, float):
+                        x = int(x)
+                    # Convert integer to IP string format
+                    if isinstance(x, int):
+                        # Convert to 32-bit unsigned integer to handle negative numbers
+                        x = x & 0xFFFFFFFF
+                        # Convert to IP string format (xxx.xxx.xxx.xxx)
+                        ip_str = '.'.join([str((x >> (8 * i)) & 0xFF) for i in range(3, -1, -1)])
+                        return int(ipaddress.IPv4Address(ip_str))
                     return int(ipaddress.IPv4Address(x))
                 except Exception:
                     print(f"Invalid IP: {x}")
