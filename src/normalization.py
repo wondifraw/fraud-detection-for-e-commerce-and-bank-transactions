@@ -19,9 +19,11 @@ class DataNormalizer:
     def standard_scale(self, df, columns):
         """Apply standard scaling to specified columns"""
         try:
+            # Create an explicit copy of the DataFrame
+            df_copy = df.copy()
             scaler = StandardScaler()
-            df[columns] = scaler.fit_transform(df[columns])
-            return df
+            df_copy[columns] = scaler.fit_transform(df_copy[columns])
+            return df_copy
         except Exception as e:
             print(f"Error in standard scaling: {str(e)}")
             return None
@@ -29,9 +31,11 @@ class DataNormalizer:
     def minmax_scale(self, df, columns):
         """Apply min-max scaling to specified columns"""
         try:
+            # Create an explicit copy of the DataFrame
+            df_copy = df.copy()
             scaler = MinMaxScaler()
-            df[columns] = scaler.fit_transform(df[columns])
-            return df
+            df_copy[columns] = scaler.fit_transform(df_copy[columns])
+            return df_copy
         except Exception as e:
             print(f"Error in min-max scaling: {str(e)}")
             return None
