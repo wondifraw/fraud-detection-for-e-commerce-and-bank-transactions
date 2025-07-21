@@ -1,64 +1,91 @@
 # Fraud Detection for E-Commerce and Bank Transactions
 
-## Overview
+## Project Overview
 
-Fraudulent transactions are a major challenge for both e-commerce platforms and financial institutions, leading to significant financial losses and eroding customer trust. This project builds a robust, end-to-end pipeline for detecting fraudulent activities in transactional data. By leveraging advanced data preprocessing, feature engineering, and state-of-the-art machine learning models, this solution helps organizations identify and prevent fraud in real time, reducing risk and improving operational efficiency.
+**Goal:**
+Detect fraudulent transactions in e-commerce and banking data using advanced machine learning techniques, robust data preprocessing, and feature engineering. The project aims to help organizations reduce financial losses and improve customer trust by identifying fraud in real time.
 
-**Key Features:**
-- Modular Python codebase for easy extension and maintenance
-- Comprehensive EDA with both univariate and bivariate analysis
-- Automated handling of missing data, outliers, and class imbalance
-- Geolocation enrichment using IP-to-country mapping
-- Feature engineering for time, frequency, and user behavior
-- Implementation of Logistic Regression and LightGBM models
-- Jupyter notebooks for interactive exploration and reproducibility
-- Unit tests for core pipeline components
-- Clear separation of features and target, and stratified train-test split via `src/data_split.py`
+**Datasets:**
+- E-commerce fraud: `data/raw/Fraud_Data.csv`
+- Credit card fraud: `data/raw/creditcard.csv`
+- IP geolocation: `data/raw/IpAddress_to_Country.csv`
 
-## Pipeline Description
+**Methods:**
+- Data cleaning, exploratory data analysis (EDA), and feature engineering
+- Geolocation enrichment (IP-to-country mapping)
+- Handling class imbalance (SMOTE, undersampling)
+- Model training: Logistic Regression and LightGBM
+- Evaluation using accuracy, precision, recall, F1-score, ROC-AUC, and AUC-PR
 
-The pipeline is modular and extensible, covering all critical stages of a modern fraud detection workflow:
+---
 
-1. **Data Loading:**
-   - Loads e-commerce, credit card, and IP-to-country datasets from the `data/raw/` directory.
-2. **Data Cleaning:**
-   - Handles missing values, removes duplicates, and ensures correct data types for all features.
-3. **Exploratory Data Analysis (EDA):**
-   - Provides summary statistics, visualizations, and insights into feature distributions and relationships.
-4. **Feature Engineering:**
-   - Creates new features based on transaction time, frequency, user behavior, and more.
-5. **Geolocation Enrichment:**
-   - Maps IP addresses to countries to add geographic context to transactions.
-6. **Imbalance Handling:**
-   - Addresses class imbalance using techniques like SMOTE and undersampling to improve model performance.
-7. **Normalization:**
-   - Scales and encodes features to prepare data for machine learning models.
-8. **Modeling:**
-   - Trains and evaluates Logistic Regression and LightGBM models for fraud detection.
+## Setup Instructions
 
-## Data
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/<your-username>/fraud-detection-for-e-commerce-and-bank-transactions.git
+   cd fraud-detection-for-e-commerce-and-bank-transactions
+   ```
 
-- **Raw Data:**
-  - `data/raw/Fraud_Data.csv` (E-commerce fraud)
-  - `data/raw/creditcard.csv` (Credit card fraud)
-  - `data/raw/IpAddress_to_Country.csv` (IP geolocation)
-- **Processed Data:**
-  - `data/processed/fraud_one_hot_encoded.csv`
-  - `data/processed/credit_minmax_scaled.csv`
+2. **Create a virtual environment (recommended)**
+   ```bash
+   python -m venv venv
+   # On Unix/macOS:
+   source venv/bin/activate
+   # On Windows:
+   venv\Scripts\activate
+   ```
 
-## Modeling Approach
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
+---
+
+## How to Run
+
+### 1. Run the Main Pipeline
+
+The main pipeline script orchestrates the entire data preprocessing and modeling workflow:
+```bash
+python scripts/main.py
+```
+
+### 2. Run Modeling Scripts Directly
+
+Train and evaluate models on preprocessed data:
 - **Logistic Regression:**
-  - A simple, interpretable baseline model that provides insight into feature importance and the linear relationships in the data.
+  ```bash
+  python scripts/logistic_regression.py
+  ```
 - **LightGBM:**
-  - A powerful gradient boosting framework that handles large datasets efficiently and captures complex, non-linear patterns.
-- **Evaluation Metrics:**
-  - Models are evaluated using accuracy, precision, recall, F1-score, ROC-AUC, and AUC-PR (Precision-Recall Curve), with a focus on minimizing false negatives (missed frauds).
+  ```bash
+  python scripts/lightgbm_model.py
+  ```
 
-## Sample Results
+### 3. Explore Data and Results in Notebooks
 
-*Below is an example of model evaluation output (replace with your actual results):*
+Open the Jupyter notebooks for step-by-step exploration:
+```bash
+jupyter notebook notebooks/Preprocessing_exploration.ipynb
+jupyter notebook notebooks/model_exploration.ipynb
+```
+Recommended order:
+1. `Preprocessing_exploration.ipynb`
+2. `model_exploration.ipynb`
 
+### 4. Run Unit Tests
+
+```bash
+pytest tests/
+```
+
+---
+
+## Example Outputs
+
+### Sample Metrics
 ```
 Logistic Regression:
 Accuracy: 0.95
@@ -77,12 +104,16 @@ ROC-AUC: 0.95
 AUC-PR: 0.90
 ```
 
-Generated plots and figures are saved in the `figures/` directory for further analysis and reporting, e.g.:
-- `Univariante_Ip_Address.png`
-- `Correlation_Bivariant_heatmap.png`
-- `credit_card_class_distribution.png`
-- `transaction_count_by_country.png`
-- `fraud_data_class_distribution.png`
+### Example Plots
+- `figures/Univariante_Ip_Address.png`
+- `figures/Correlation_Bivariant_heatmap.png`
+- `figures/credit_card_class_distribution.png`
+- `figures/transaction_count_by_country.png`
+- `figures/fraud_data_class_distribution.png`
+
+**(Optional: Add screenshots of metrics or plots here for visual reference.)**
+
+---
 
 ## Project Structure
 
@@ -145,25 +176,7 @@ pytest==6.2.0
 
 ## Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/<your-username>/fraud-detection-for-e-commerce-and-bank-transactions.git
-   cd fraud-detection-for-e-commerce-and-bank-transactions
-   ```
-
-2. **Create a virtual environment (recommended for reproducibility)**
-   ```bash
-   python -m venv venv
-   # On Unix/macOS:
-   source venv/bin/activate
-   # On Windows:
-   venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+*See Setup Instructions above.*
 
 ## Usage
 
@@ -245,6 +258,20 @@ We welcome contributions from the community! To contribute:
 ## License
 
 This project is licensed under the MIT License.
+
+---
+
+## Future Work
+
+- Integrate additional fraud detection algorithms (e.g., XGBoost, neural networks)
+- Deploy as a real-time API for live transaction scoring
+- Add explainability tools (e.g., SHAP, LIME) for model interpretation
+- Expand geolocation enrichment (city/region granularity)
+- Automate hyperparameter tuning and model selection
+- Enhance visualization and reporting (dashboard integration)
+- Incorporate feedback loop for continuous model improvement
+
+---
 
 
 
