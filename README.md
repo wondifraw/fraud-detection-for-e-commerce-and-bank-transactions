@@ -146,6 +146,12 @@ To ensure your results are reproducible:
 The main pipeline in `scripts/main.py` orchestrates the entire data preprocessing workflow.
 ```bash
 python scripts/main.py
+Alternatively, you can run the main pipeline directly from a Jupyter notebook. For example, in a notebook cell:
+
+
+
+
+
 ```
 
 ### Train and Evaluate Models
