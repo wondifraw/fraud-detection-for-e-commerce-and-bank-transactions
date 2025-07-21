@@ -71,6 +71,11 @@ Generated plots and figures are saved in the `figures/` directory for further an
 
 ## Project Structure
 
+> **Note:**
+> - All datasets should be placed in the `data/` directory (already structured).
+> - All Jupyter notebooks are in the `notebooks/` directory (already structured).
+> - No datasets or notebooks should be in the root directory.
+
 ```
 .
 ├── data/                       # Data directory (raw and processed data)
@@ -102,7 +107,7 @@ Generated plots and figures are saved in the `figures/` directory for further an
 ## Requirements
 
 - Python 3.8+
-- See `requirements.txt` for all Python dependencies.
+- All dependencies are pinned in `requirements.txt` for reproducibility.
 
 ## Installation
 
@@ -112,16 +117,27 @@ Generated plots and figures are saved in the `figures/` directory for further an
    cd fraud-detection-for-e-commerce-and-bank-transactions
    ```
 
-2. **Create a virtual environment (recommended)**
+2. **Create a virtual environment (recommended for reproducibility)**
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   # On Unix/macOS:
+   source venv/bin/activate
+   # On Windows:
+   venv\Scripts\activate
    ```
 
-3. **Install dependencies**
+3. **Install dependencies (all versions are pinned for reproducibility)**
    ```bash
    pip install -r requirements.txt
    ```
+
+## Reproducibility
+
+To ensure your results are reproducible:
+- **Dependencies:** All Python dependencies are pinned in `requirements.txt`. Always use a virtual environment and install with `pip install -r requirements.txt`.
+- **Random Seeds:** For consistent results in modeling and data splitting, set random seeds in your scripts and notebooks (e.g., `random_state=42` in scikit-learn, `numpy.random.seed(42)`).
+- **Environment:** Use Python 3.8+ as tested. For best results, use the same OS and Python version as specified.
+- **Data:** Ensure you use the same datasets in the `data/` directory. If using new data, document any changes.
 
 ## Usage
 
