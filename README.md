@@ -41,6 +41,7 @@ graph TD
     G --> H["Data Splitting"]
     H --> I["Model Training"]
     I --> J["Evaluation & Visualization"]
+    J --> K["Model Explainability (SHAP)"]
 ```
 
 ---
