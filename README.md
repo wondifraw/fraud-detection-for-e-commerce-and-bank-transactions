@@ -2,20 +2,145 @@
 
 ## Project Overview
 
-**Goal:**
-Detect fraudulent transactions in e-commerce and banking data using advanced machine learning techniques, robust data preprocessing, and feature engineering. The project aims to help organizations reduce financial losses and improve customer trust by identifying fraud in real time.
+This repository provides a comprehensive, modular, and reproducible pipeline for detecting fraudulent transactions in both e-commerce and banking domains. The project is designed to support robust experimentation, deep data analysis, and production-ready model development.
 
-**Datasets:**
-- E-commerce fraud: `data/raw/Fraud_Data.csv`
-- Credit card fraud: `data/raw/creditcard.csv`
-- IP geolocation: `data/raw/IpAddress_to_Country.csv`
+**Objectives:**
+- Detect fraudulent transactions in real-world e-commerce and credit card datasets.
+- Provide a flexible, extensible codebase for research and deployment.
+- Enable transparent, reproducible, and explainable machine learning workflows.
 
-**Methods:**
-- Data cleaning, exploratory data analysis (EDA), and feature engineering
-- Geolocation enrichment (IP-to-country mapping)
-- Handling class imbalance (SMOTE, undersampling)
-- Model training: Logistic Regression and LightGBM
-- Evaluation using accuracy, precision, recall, F1-score, ROC-AUC, and AUC-PR
+---
+
+## Pipeline Overview
+
+The project is organized as a modular pipeline, where each stage is handled by a dedicated component. The main steps are:
+
+1. **Data Loading**: Import raw datasets (e-commerce, credit card, IP geolocation).
+2. **Data Cleaning**: Handle missing values, remove duplicates, enforce data types.
+3. **Exploratory Data Analysis (EDA)**: Generate summary statistics and visualizations.
+4. **Feature Engineering**: Create time-based, frequency, and aggregation features.
+5. **Geolocation Enrichment**: Map IP addresses to countries for risk analysis.
+6. **Imbalance Handling**: Apply SMOTE oversampling and random undersampling.
+7. **Normalization & Encoding**: Scale numeric features and encode categoricals.
+8. **Data Splitting**: Stratified train/test split to preserve class balance.
+9. **Model Training**: Train Logistic Regression and LightGBM models.
+10. **Evaluation**: Assess models with comprehensive metrics and visualizations.
+
+---
+
+## Pipeline Diagram
+
+```mermaid
+graph TD
+    A["Data Loading"] --> B["Data Cleaning"]
+    B --> C["EDA"]
+    C --> D["Feature Engineering"]
+    D --> E["Geolocation Enrichment"]
+    E --> F["Imbalance Handling"]
+    F --> G["Normalization & Encoding"]
+    G --> H["Data Splitting"]
+    H --> I["Model Training"]
+    I --> J["Evaluation & Visualization"]
+```
+
+---
+
+## Example Output
+
+```
+Loaded data from: data/processed/fraud_one_hot_encoded.csv
+Columns: [...]
+Data cleaned.
+Feature engineering complete.
+Geolocation enrichment complete.
+Normalization complete.
+Train shape: (8000, 20), Test shape: (2000, 20)
+Train class distribution: {0: 7600, 1: 400}
+Test class distribution: {0: 1900, 1: 100}
+Training Logistic Regression...
+Evaluating Logistic Regression...
+Logistic Regression metrics: {'accuracy': 0.97, 'precision': 0.85, ...}
+...
+```
+
+---
+
+## Repository Structure
+
+- **data/**  
+  - `raw/`: Contains original datasets (`Fraud_Data.csv`, `creditcard.csv`, `IpAddress_to_Country.csv`).
+  - `processed/`: Stores cleaned and feature-engineered datasets.
+- **notebooks/**  
+  - Jupyter notebooks for EDA, preprocessing, model training, and evaluation (e.g., `Train_evaluate_demo.ipynb`).
+- **src/**  
+  - Modular Python scripts for data loading, cleaning, feature engineering, model training, and evaluation.
+- **tests/**  
+  - Unit tests for core modules to ensure reliability and reproducibility.
+- **requirements.txt**  
+  - Pinned dependencies for consistent environments.
+- **README.md**  
+  - Project documentation and usage instructions.
+
+---
+
+## Modular Components
+
+- **DataLoader**: Loads e-commerce, credit card, and IP geolocation datasets.
+- **DataCleaner**: Handles missing values, removes duplicates, and enforces data types.
+- **EDA**: Provides summary statistics and visualizations for data understanding.
+- **FeatureEngineer**: Creates time-based, frequency, and aggregation features.
+- **GeolocationProcessor**: Enriches data with country info from IP addresses.
+- **ImbalanceHandler**: Applies SMOTE and undersampling for class balance.
+- **DataNormalizer**: Scales and encodes features for modeling.
+- **Model Training/Evaluation**: Supports Logistic Regression and LightGBM, with cross-validation and rich metrics.
+
+---
+
+## Key Features & Workflow
+
+- **Unified Data Pipeline:**  
+  Modular scripts and notebooks for loading, cleaning, and transforming both e-commerce and credit card datasets.
+- **Advanced Feature Engineering:**  
+  - Time-based features (e.g., transaction hour, day of week)
+  - Frequency and aggregation features (e.g., transactions per user/IP)
+  - Geolocation enrichment using IP-to-country mapping
+- **Class Imbalance Handling:**  
+  - SMOTE and undersampling techniques
+  - Automated class distribution analysis
+- **Modeling:**  
+  - Baseline and advanced models: Logistic Regression, LightGBM
+  - Hyperparameter tuning and cross-validation (StratifiedKFold, cross_val_score)
+- **Evaluation:**  
+  - Comprehensive metrics: accuracy, precision, recall, F1-score, ROC-AUC, AUC-PR
+  - Confusion matrices and threshold analysis
+- **Interactive Analysis:**  
+  - Jupyter notebooks for EDA, visualization, and model interpretation
+- **Reproducibility:**  
+  - Pinned dependencies, modular code, and unit tests
+- **Geolocation-based Risk Analysis:**  
+  - Enriches transactions with country information for advanced fraud detection.
+
+---
+
+## Datasets
+
+- **E-commerce Fraud:** `data/raw/Fraud_Data.csv`
+- **Credit Card Fraud:** `data/raw/creditcard.csv`
+- **IP Geolocation:** `data/raw/IpAddress_to_Country.csv`
+
+---
+
+## Dependencies / Tech Stack
+
+- Python 3.8+
+- pandas
+- numpy
+- scikit-learn
+- lightgbm
+- imbalanced-learn
+- matplotlib
+- seaborn
+- Jupyter Notebook
 
 ---
 
@@ -43,235 +168,100 @@ Detect fraudulent transactions in e-commerce and banking data using advanced mac
 
 ---
 
-## How to Run
+## How to Use
 
-### 1. Run the Main Pipeline
+### 1. Explore and Analyze Data
 
-The main pipeline script orchestrates the entire data preprocessing and modeling workflow:
-```bash
-python scripts/main.py
-```
+- Open the Jupyter notebooks in `notebooks/` (e.g., `Train_evaluate_demo.ipynb`) to:
+  - Perform EDA (univariate, bivariate, geospatial)
+  - Visualize class imbalance and feature distributions
+  - Experiment with feature engineering and preprocessing steps
 
-### 2. Run Modeling Scripts Directly
+### 2. Run the Main Pipeline
 
-Train and evaluate models on preprocessed data:
-- **Logistic Regression:**
+- Use the main script to run the full pipeline:
   ```bash
-  python scripts/logistic_regression.py
+  python scripts/main.py
+  # or for credit card data
+  python scripts/main.py credit
   ```
-- **LightGBM:**
+- The script orchestrates data loading, cleaning, feature engineering, geolocation enrichment, normalization, model training, and evaluation. Results and metrics are printed/logged.
+
+### 3. Reproducibility and Testing
+
+- Run unit tests in `tests/` to verify data processing and modeling steps:
   ```bash
-  python scripts/lightgbm_model.py
+  pytest tests/
   ```
-
-### 3. Explore Data and Results in Notebooks
-
-Open the Jupyter notebooks for step-by-step exploration:
-```bash
-jupyter notebook notebooks/Preprocessing_exploration.ipynb
-jupyter notebook notebooks/model_exploration.ipynb
-```
-Recommended order:
-1. `Preprocessing_exploration.ipynb`
-2. `model_exploration.ipynb`
-
-### 4. Run Unit Tests
-
-```bash
-pytest tests/
-```
+- All experiments are reproducible with pinned dependencies in `requirements.txt`.
 
 ---
 
-## Example Outputs
+## Extending the Project
 
-### Sample Metrics
-```
-Logistic Regression:
-Accuracy: 0.95
-Precision: 0.80
-Recall: 0.72
-F1-score: 0.76
-ROC-AUC: 0.91
-AUC-PR: 0.85
-
-LightGBM:
-Accuracy: 0.97
-Precision: 0.88
-Recall: 0.81
-F1-score: 0.84
-ROC-AUC: 0.95
-AUC-PR: 0.90
-```
-
-### Example Plots
-- `figures/Univariante_Ip_Address.png`
-- `figures/Correlation_Bivariant_heatmap.png`
-- `figures/credit_card_class_distribution.png`
-- `figures/transaction_count_by_country.png`
-- `figures/fraud_data_class_distribution.png`
-
-**(Optional: Add screenshots of metrics or plots here for visual reference.)**
+- **Add new models or feature engineering steps** by extending the scripts in `src/` (e.g., `feature_engineering.py`, `model_training.py`).
+- **Integrate additional datasets** by placing them in `data/raw/` and updating the data loading scripts.
+- **Use the provided notebooks** as templates for further analysis or reporting.
+- **Customize the pipeline** by modifying or adding steps in `scripts/main.py` following the modular pattern.
 
 ---
 
-## Project Structure
+## Advanced Features
 
-```
-.
-├── data/
-│   ├── raw/
-│   │   ├── Fraud_Data.csv
-│   │   ├── creditcard.csv
-│   │   └── IpAddress_to_Country.csv
-│   └── processed/
-│       ├── fraud_one_hot_encoded.csv
-│       └── credit_minmax_scaled.csv
-├── figures/                    # Generated plots and figures
-│   └── ... (see above)
-├── model/                      # Trained models
-│   ├── credit_lgbm_model.joblib
-│   ├── fraud_lgbm_model.joblib
-│   ├── credit_logreg_model.joblib
-│   └── fraud_logreg_model.joblib
-├── notebooks/
-│   ├── Preprocessing_exploration.ipynb
-│   └── model_exploration.ipynb
-├── scripts/
-│   ├── main.py                 # Main pipeline script
-│   ├── logistic_regression.py  # Logistic Regression model
-│   └── lightgbm_model.py       # LightGBM model
-├── src/
-│   ├── data_loading.py         # DataLoader: Loads datasets
-│   ├── data_cleaning.py        # DataCleaner: Handles missing values, duplicates, etc.
-│   ├── feature_engineering.py  # FeatureEngineer: Creates time-based and frequency features
-│   ├── geolocation.py          # GeolocationProcessor: Enriches data with country info
-│   ├── imbalance_handling.py   # ImbalanceHandler: Handles class imbalance (SMOTE, etc.)
-│   ├── normalization.py        # DataNormalizer: Scales and encodes features
-│   ├── eda.py                  # EDA: Analysis and visualizations
-│   ├── data_split.py           # Functions for feature/target split and stratified splitting
-│   └── __init__.py
-├── tests/
-│   └── test_pipeline.py        # Unit tests for core pipeline components
-├── README.md                   # This file
-└── requirements.txt            # Python dependencies
-```
+- **Geolocation-based risk analysis** for fraud detection.
+- **Automated class imbalance handling** with SMOTE and undersampling.
+- **Modular, extensible design** for research and production.
+- **Comprehensive evaluation** with cross-validation and advanced metrics.
 
-## Requirements
+---
 
-- Python 3.8+
-- All dependencies are pinned in `requirements.txt` for reproducibility.
+## Model Explainability with SHAP
 
-```
-pandas==1.2.0
-numpy==1.19.0
-matplotlib==3.3.3
-seaborn==0.11.1
-scikit-learn==0.24.0
-imbalanced-learn==0.8.0
-ipython==7.19.0
-jupyter==1.0.0
-pytest==6.2.0
-```
+This project includes a modular script for model explainability using SHAP (Shapley Additive exPlanations). The script supports both the e-commerce fraud and credit card datasets, and works with both LightGBM and Logistic Regression models.
 
-## Installation
+### Features
+- Computes SHAP values for both datasets and both models.
+- Generates and saves summary (bar and beeswarm) and force plots for global and local interpretability.
+- Handles the latest SHAP output format for LightGBM binary classifiers.
+- Modular, robust, and callable from notebooks or other scripts.
 
-*See Setup Instructions above.*
+### Usage
 
-## Usage
+**From a Jupyter notebook or Python script:**
 
-### Run the Main Pipeline
-
-The main pipeline in `scripts/main.py` orchestrates the entire data preprocessing workflow.
-```bash
-python scripts/main.py
-### Run Jupyter Notebooks for Interactive Analysis
-
-You can interactively explore the data, preprocessing steps, and model results using the provided Jupyter notebooks.
-
-**To launch the notebooks:**
-# or, to open a specific notebook directly:
-jupyter notebook notebooks/Preprocessing_exploration.ipynb
-jupyter notebook notebooks/model_exploration
-
-
-
-
-
-```
-
-### Train and Evaluate Models
-
-You can run the modeling scripts directly to train and evaluate the models on the preprocessed data.
-
-**Logistic Regression:**
-```bash
-python scripts/logistic_regression.py
-```
-
-**LightGBM:**
-```bash
-python scripts/lightgbm_model.py
-```
-
-### Explore the Data Interactively
-
-Open the Jupyter notebooks for detailed exploration:
-```bash
-jupyter notebook notebooks/Preprocessing_exploration.ipynb
-jupyter notebook notebooks/model_exploration.ipynb
-```
-
-### Run Unit Tests
-
-```bash
-pytest tests/
-```
-
-## How to Use the Data Split Module
-
-To separate features and target, and perform a stratified train-test split, use:
 ```python
-from src.data_split import separate_features_and_target, stratified_train_test_split
-X, y = separate_features_and_target(df, target_col='class')  # or 'Class' for creditcard
-X_train, X_test, y_train, y_test = stratified_train_test_split(X, y, test_size=0.2, random_state=42)
+from src.shap_explain import run_all_shap_analyses
+run_all_shap_analyses()
 ```
 
-## Troubleshooting
+- This will generate SHAP plots for both datasets and both models.
+- Plots are saved in the `models/` directory with descriptive filenames (e.g., `shap_ecommerce_lightgbm_summary_bar.png`).
 
-- **ImportError: cannot import name 'DataSplitter'**
-  - Use the new function-based API from `src/data_split.py` (see above).
-- **FileNotFoundError: ...csv**
-  - Ensure the required data file exists in the correct directory. See the Data section above for expected files.
-- **ImportError: cannot import name 'LightGBMClassifier'**
-  - Use `LGBMClassifier` from the `lightgbm` package, not from your script.
-- For Jupyter notebook issues, ensure all dependencies are installed and the kernel is set to your virtual environment.
+**Customization:**
+- You can call `run_shap_for_dataset(config)` with a custom configuration dictionary to run SHAP analysis for a specific dataset/model only.
+
+### Requirements
+- SHAP (latest version)
+- LightGBM, scikit-learn, pandas, matplotlib, joblib
+
+See the `src/shap_explain.py` file for more details and customization options.
+
+---
 
 ## Contributing
 
-We welcome contributions from the community! To contribute:
-- Fork the repository and create your branch from `main`.
-- Ensure your code follows the existing style and includes appropriate tests.
+Contributions are welcome! To contribute:
+- Fork the repository and create a new branch for your feature or bugfix.
+- Add or update tests as appropriate.
+- Ensure your code follows the existing style and passes all tests.
 - Submit a pull request with a clear description of your changes.
-- For major changes, please open an issue first to discuss what you would like to change.
 
-## License
-
-This project is licensed under the MIT License.
+For more details, see `CONTRIBUTING.md` (to be added).
 
 ---
 
-## Future Work
+## Contact
 
-- Integrate additional fraud detection algorithms (e.g., XGBoost, neural networks)
-- Deploy as a real-time API for live transaction scoring
-- Add explainability tools (e.g., SHAP, LIME) for model interpretation
-- Expand geolocation enrichment (city/region granularity)
-- Automate hyperparameter tuning and model selection
-- Enhance visualization and reporting (dashboard integration)
-- Incorporate feedback loop for continuous model improvement
+For questions, suggestions, or contributions, please open an issue or submit a pull request.
 
 ---
-
-
-
