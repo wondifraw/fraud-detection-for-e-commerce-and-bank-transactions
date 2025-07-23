@@ -1,33 +1,38 @@
 
 """
-Main script for orchestrating the fraud detection data pipeline.
+Main script for orchestrating the end-to-end fraud detection data pipeline.
 
 This script performs the following steps:
-- Loads raw fraud, IP-to-country, and credit card datasets.
-- Cleans the loaded data, handling missing values and imputing as needed.
-- Initializes components for EDA, geolocation enrichment, feature engineering, class imbalance handling, and normalization.
-- Serves as the entry point for the end-to-end data processing workflow.
+- Loads raw datasets, including fraud transaction data, IP-to-country mappings, and credit card records.
+- Cleans and preprocesses the loaded data, handling missing values, imputing as needed, and ensuring data consistency.
+- Performs exploratory data analysis (EDA) to summarize and visualize key dataset characteristics.
+- Enriches data with geolocation features based on IP addresses, if available.
+- Applies feature engineering techniques to create, transform, or select relevant features for modeling.
+- Handles class imbalance using resampling techniques such as SMOTE.
+- Normalizes or scales features to prepare data for machine learning algorithms.
+- Splits the data into training and testing sets using stratified sampling to preserve class distribution.
+- Trains machine learning models (e.g., Logistic Regression, LightGBM) and evaluates their performance using cross-validation and various metrics (accuracy, precision, recall, F1, ROC-AUC, PR-AUC).
+- Visualizes model performance (e.g., precision-recall curves, feature importances).
+- Serves as the entry point for the entire data processing and modeling workflow, allowing for flexible extension and integration of additional steps (e.g., hyperparameter tuning, model ensembling, advanced feature selection).
 
-Additional processing steps (EDA, feature engineering, etc.) should be added following the provided pattern.
+To extend the pipeline, add additional processing, analysis, or modeling steps following the established modular pattern.
 """
 import sys
 import os
 
 # Ensure src/ is in the path for imports
-src_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src'))
-if src_path not in sys.path:
-    sys.path.insert(0, src_path)
+sys.path.append(os.path.abspath('..'))
 
 import pandas as pd
-from data_loading import DataLoader
-from data_cleaning import DataCleaner
-from eda import EDA
-from geolocation import GeolocationProcessor
-from feature_engineering import FeatureEngineer
-from imbalance_handling import ImbalanceHandler
-from normalization import DataNormalizer
-from model_training import prepare_data, train_logistic_regression, train_lightgbm, cross_validate_model
-from model_evaluation import evaluate_model, plot_precision_recall, plot_feature_importance
+from src.data_loading import DataLoader
+from src.data_cleaning import DataCleaner
+from src.eda import EDA
+from src.geolocation import GeolocationProcessor
+from src.feature_engineering import FeatureEngineer
+from src.imbalance_handling import ImbalanceHandler
+from src.normalization import DataNormalizer
+from src.model_training import prepare_data, train_logistic_regression, train_lightgbm, cross_validate_model
+from src.model_evaluation import evaluate_model, plot_precision_recall, plot_feature_importance
 
 def main():
     # Choose dataset based on command-line argument
