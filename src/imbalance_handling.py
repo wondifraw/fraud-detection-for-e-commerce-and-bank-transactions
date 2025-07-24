@@ -10,7 +10,6 @@ These utilities are designed to help improve model performance by addressing cla
 commonly encountered in fraud detection workflows.
 """
 
-
 import pandas as pd
 from imblearn.over_sampling import SMOTE
 from sklearn.utils import resample
@@ -32,7 +31,6 @@ class ImbalanceHandler:
             # Separate majority and minority classes
             majority = df[df[target_col] == 0]
             minority = df[df[target_col] == 1]
-            
             # Downsample majority class
             majority_downsampled = resample(
                 majority,
