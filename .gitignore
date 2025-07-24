@@ -2,5 +2,4 @@ data/
 __pycache__/
 figures/
 Report.*
-models/
 .ipynb_checkpoints
