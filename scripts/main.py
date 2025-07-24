@@ -24,6 +24,8 @@ import os
 sys.path.append(os.path.abspath('..'))
 
 import pandas as pd
+import shapss
+import matplotlib.pyplot as plt
 from src.data_loading import DataLoader
 from src.data_cleaning import DataCleaner
 from src.eda import EDA
@@ -109,6 +111,31 @@ def main():
     print("\nCross-validating LightGBM...")
     lgbm_cv_scores = cross_validate_model(lgbm_model, X_train, y_train)
     print("LightGBM CV average_precision scores:", lgbm_cv_scores)
+    # SHAP explainability for model interpretation
+    print("\nExplaining models with SHAP...")
+
+    try:
+        # Logistic Regression SHAP explanation
+        print("SHAP summary for Logistic Regression:")
+        explainer_logreg = shap.Explainer(logreg_model, X_train, feature_names=logreg_features)
+        shap_values_logreg = explainer_logreg(X_test)
+        shap.summary_plot(shap_values_logreg, X_test, feature_names=logreg_features, show=False)
+        plt.title("Logistic Regression SHAP Summary")
+        plt.tight_layout()
+        plt.show()
+
+        # LightGBM SHAP explanation
+        print("SHAP summary for LightGBM:")
+        explainer_lgbm = shap.Explainer(lgbm_model, X_train, feature_names=lgbm_features)
+        shap_values_lgbm = explainer_lgbm(X_test)
+        shap.summary_plot(shap_values_lgbm, X_test, feature_names=lgbm_features, show=False)
+        plt.title("LightGBM SHAP Summary")
+        plt.tight_layout()
+        plt.show()
+    except ImportError:
+        print("SHAP or matplotlib not installed. Skipping SHAP explainability.")
+    except Exception as e:
+        print(f"SHAP explainability failed: {e}")
 
 if __name__ == "__main__":
     main()
