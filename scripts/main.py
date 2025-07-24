@@ -24,7 +24,7 @@ import os
 sys.path.append(os.path.abspath('..'))
 
 import pandas as pd
-import shapss
+import shap
 import matplotlib.pyplot as plt
 from src.data_loading import DataLoader
 from src.data_cleaning import DataCleaner
