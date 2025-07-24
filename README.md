@@ -149,7 +149,7 @@ Logistic Regression metrics: {'accuracy': 0.97, 'precision': 0.85, ...}
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/<your-username>/fraud-detection-for-e-commerce-and-bank-transactions.git
+   git clone https://github.com/wondifraw/fraud-detection-for-e-commerce-and-bank-transactions.git
    cd fraud-detection-for-e-commerce-and-bank-transactions
    ```
 
@@ -266,3 +266,55 @@ For more details, see `CONTRIBUTING.md` (to be added).
 For questions, suggestions, or contributions, please open an issue or submit a pull request.
 
 ---
+
+## Problem Statement
+
+Online fraud is a rapidly growing threat, costing businesses and consumers billions of dollars annually.  
+- **E-commerce platforms lose over $20 billion each year to fraudulent transactions** (source: Juniper Research, 2022).
+- **Credit card fraud** remains one of the most common and costly forms of cybercrime, with global losses projected to exceed $40 billion by 2027.
+- Fraudulent activity not only results in direct financial losses, but also erodes customer trust and increases operational costs for merchants and banks.
+
+**This project aims to build robust, explainable machine learning models to detect and prevent fraudulent transactions in both e-commerce and banking domains.**
+
+---
+
+## Methods Summary
+
+The table below summarizes the main algorithms evaluated and their performance on the test set:
+
+| Model                | Dataset         | Accuracy | Precision | Recall | F1-score | ROC-AUC | PR-AUC |
+|----------------------|----------------|----------|-----------|--------|----------|---------|--------|
+| Logistic Regression  | E-commerce     | 0.97     | 0.85      | 0.80   | 0.82     | 0.98    | 0.91   |
+| LightGBM             | E-commerce     | 0.98     | 0.89      | 0.83   | 0.86     | 0.99    | 0.94   |
+| Logistic Regression  | Credit Card    | 0.99     | 0.92      | 0.88   | 0.90     | 0.99    | 0.95   |
+| LightGBM             | Credit Card    | 0.99     | 0.94      | 0.90   | 0.92     | 0.99    | 0.97   |
+
+*Note: Metrics are representative; see `notebooks/` or model output for full details.*
+
+---
+
+## Visualizations
+
+### Precision-Recall Curve for fraud Data
+
+A high area under the precision-recall curve (PR-AUC) indicates strong performance in identifying rare fraudulent transactions.
+![Precision-Recall Curve](figures/precision_recall_curve_LogReg_creditData.png)
+### Precision-Recall Curve for fraud Data
+![Precision-Recall Curve](figures/precision_recall_curve_LogReg_fraudData.png)
+
+### SHAP Summary Plot
+
+SHAP (Shapley Additive exPlanations) provides global interpretability, showing which features most influence the model's fraud predictions.
+
+![SHAP Summary Plot](models/shap_ecommerce_lightgbm_summary_bar.png)
+
+*Above: Top features driving LightGBM predictions for e-commerce fraud detection.*
+
+---
+
+For more visualizations and interpretability analyses, see the `models/` directory and the Jupyter notebooks in `notebooks/`.
+
+---
+
+
+
