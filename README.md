@@ -27,7 +27,7 @@ This repository delivers a robust, modular, and fully reproducible pipeline for 
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/fraud-detection-pipeline.git
+   git clone https://github.com/wondifraw/fraud-detection-pipeline.git
    cd fraud-detection-pipeline
    ```
 
@@ -195,8 +195,6 @@ After running the end-to-end fraud detection pipeline, here are some sample resu
 
 ### Sharp Analysis Output
 Below is an example of SHAP summary output for the LightGBM model, visualizing the most important features influencing fraud predictions:
-
-![SHAP Summary Plot Example](figures/shap_summary_lightgbm.png)
 
 *Interpretation*:  
 - Features at the top (e.g., `transaction_amount`, `ip_country_mismatch`, `transaction_hour`) have the greatest impact on the model's output.
