@@ -23,28 +23,38 @@ This repository delivers a robust, modular, and fully reproducible pipeline for 
 
 ---
 
-## Setup Instructions
+## Installation Steps
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/wondifraw/fraud-detection-for-e-commerce-and-bank-transactions.git
-   cd fraud-detection-for-e-commerce-and-bank-transactions
+   git clone https://github.com/your-username/fraud-detection-pipeline.git
+   cd fraud-detection-pipeline
    ```
 
-2. **Create and Activate a Virtual Environment**
+2. **Set Up a Python Virtual Environment (Recommended)**
    ```bash
-   python -m venv venv
-   # On Unix/macOS:
-   source venv/bin/activate
-   # On Windows:
-   venv\Scripts\activate
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
-3. **Install Dependencies**
+3. **Install Required Dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
+4. **(Optional) Install Jupyter Notebook for Interactive Analysis**
+   ```bash
+   pip install notebook
+   ```
+
+5. **Verify Installation**
+   - Run the unit tests to ensure all modules are working:
+     ```bash
+     pytest tests/
+     ```
+
+6. **Download or Place Data**
+   - Place your raw datasets in the `data/raw/` directory as described in the project documentation.
 ---
 
 ## End-to-End Pipeline: Step-by-Step Procedure
@@ -125,7 +135,7 @@ To run the end-to-end fraud detection pipeline, execute the main script from the
 
 You can also interactively run and experiment with the pipeline using Jupyter notebooks. This is useful for step-by-step exploration, visualization, and custom analysis.
 
-1. **Start Jupyter Notebook**  
+1. **Start Jupyter Notebook**
    From the project root or `scripts/` directory, launch Jupyter:
 
    ```bash
